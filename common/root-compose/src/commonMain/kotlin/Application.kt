@@ -5,19 +5,11 @@ import androidx.compose.ui.Modifier
 
 @Composable
 fun Application() {
-    AppTheme{
+    AppTheme {
         Column(modifier = Modifier.fillMaxSize()) {
-            KanbanBoard()
+//            KanbanBoard()
+            StuffListUI()
         }
     }
 }
-
-
-
-
-
-
-
-
-
 
