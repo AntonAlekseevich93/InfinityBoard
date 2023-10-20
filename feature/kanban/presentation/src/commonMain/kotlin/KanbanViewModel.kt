@@ -2,8 +2,8 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.graphics.Color
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import main_models.TaskItemVo
 import models.KanbanColumnItem
-import models.TaskItem
 import kotlin.random.Random
 
 class KanbanViewModel {
@@ -11,20 +11,20 @@ class KanbanViewModel {
         id = 0,
         taskItems =
         mutableStateListOf(
-            TaskItem(1, 0, "Помыть посуду"),
-            TaskItem(5, 0, "ВыросШирос"),
-            TaskItem(4, 0, "Экипировка")
+            TaskItemVo(1, 0, "Помыть посуду"),
+            TaskItemVo(5, 0, "ВыросШирос"),
+            TaskItemVo(4, 0, "Экипировка")
         )
     )
     val sencond = KanbanColumnItem(
         id = 1,
-        taskItems = mutableStateListOf(TaskItem(2, 1, "Приготовить завтрак"))
+        taskItems = mutableStateListOf(TaskItemVo(2, 1, "Приготовить завтрак"))
     )
 
     val third = KanbanColumnItem(
         id = 2,
         taskItems =
-        mutableStateListOf<TaskItem>(TaskItem(3, 2, "Убраться"))
+        mutableStateListOf<TaskItemVo>(TaskItemVo(3, 2, "Убраться"))
 
     )
     private val _kanbanList = MutableStateFlow(
@@ -66,7 +66,7 @@ class KanbanViewModel {
         addedPersons.add(personUiItem)
     }
 
-    fun deleteItemById(item: TaskItem, newId: Int, newIndex: Int) {
+    fun deleteItemById(item: TaskItemVo, newId: Int, newIndex: Int) {
         _kanbanList.value.forEachIndexed { index, kanbanColumnItem ->
             val count = kanbanColumnItem.taskItems.count { it.id == item.id }
             if (count > 0) {
@@ -78,55 +78,39 @@ class KanbanViewModel {
         _kanbanList.value[newIndex].taskItems.add(item.copy(kanbanColumnId = newId))
     }
 
-    private val _uiState = MutableStateFlow<MutableList<Section2>>(mutableStateListOf())
+    private val _uiState = MutableStateFlow<MutableList<KanbanBoard>>(mutableStateListOf())
     val uiState = _uiState.asStateFlow()
 
     private val sections =
         mutableStateListOf(
-            Section(name = "Section 1"),
-            Section(name = "Section 2"),
-            Section(name = "Section 3"),
-            Section(name = "Section 4"),
-            Section(name = "Section 5"),
-            Section(name = "Section 6"),
-            Section(name = "Section 7"),
-            Section(name = "Section 8"),
-            Section(name = "Section 9"),
-            Section(name = "Section 10"),
-//            Section(name = "Section 12"),
-//            Section(name = "Section 13"),
-//            Section(name = "Section 14"),
-//            Section(name = "Section 15"),
-//            Section(name = "Section 16"),
-//            Section(name = "Section 17"),
+            TaskItemVo(id = 0, kanbanColumnId = 0, name = "Задача 1"),
+            TaskItemVo(id = 1, kanbanColumnId = 0, name = "Задача 2"),
+            TaskItemVo(id = 2, kanbanColumnId = 0, name = "Задача 3"),
+            TaskItemVo(id = 3, kanbanColumnId = 0, name = "Задача 4"),
+            TaskItemVo(id = 4, kanbanColumnId = 0, name = "Задача 5"),
         )
 
 
     private val sections2 = mutableStateListOf(
-        Section(name = "OLO"),
-        Section(name = "1"),
-        Section(name = "2"),
-        Section(name = "3"),
-        Section(name = "4"),
-        Section(name = "5"),
-//    Section(name ="Арг 7"),
-//    Section(name ="Арг 8"),
-//    Section(name ="Арг 9"),
-//    Section(name ="Арг 10"),
+        TaskItemVo(id = 0, kanbanColumnId = 0, name = "Кто-то сделать 1"),
+        TaskItemVo(id = 1, kanbanColumnId = 0, name = "Кто-то сделать 2"),
+        TaskItemVo(id = 2, kanbanColumnId = 0, name = "Кто-то сделать 3"),
+        TaskItemVo(id = 3, kanbanColumnId = 0, name = "Кто-то сделать 4"),
+        TaskItemVo(id = 4, kanbanColumnId = 0, name = "Кто-то сделать 5"),
     )
 
     fun taskSwap(from: Int, to: Int, columnIndex: Int, shiftOnly: Boolean) {
         val newList = _uiState.value.toMutableList()
 
         if (!shiftOnly) {
-            val toItem = _uiState.value[columnIndex].sec2[to]
-            val fromItem = _uiState.value[columnIndex].sec2[from]
-            newList[columnIndex].sec2[from] = toItem
-            newList[columnIndex].sec2[to] = fromItem
+            val toItem = _uiState.value[columnIndex].taskList[to]
+            val fromItem = _uiState.value[columnIndex].taskList[from]
+            newList[columnIndex].taskList[from] = toItem
+            newList[columnIndex].taskList[to] = fromItem
         } else {
-            val fromItem = _uiState.value[columnIndex].sec2[from]
-            newList[columnIndex].sec2.removeAt(from)
-            newList[columnIndex].sec2.add(to, fromItem)
+            val fromItem = _uiState.value[columnIndex].taskList[from]
+            newList[columnIndex].taskList.removeAt(from)
+            newList[columnIndex].taskList.add(to, fromItem)
         }
         _uiState.value = newList
     }
@@ -145,21 +129,21 @@ class KanbanViewModel {
         println("Clicked $item")
     }
 
-    fun sectionClicked2(it: Section2) {
+    fun sectionClicked2(it: KanbanBoard) {
 
     }
 
     fun addNewItemInList(itemIndex: Int, columnIndex: Int, item: Any) {
-        (item as? Section)?.let {
-            _uiState.value[columnIndex].sec2.add(0, it)
+        (item as? TaskItemVo)?.let {
+            _uiState.value[columnIndex].taskList.add(0, it)
             changeItemPosition(0, itemIndex, columnIndex)
         }
     }
 
     fun removeItemFromColumn(item: Any, columnIndex: Int) {
         try {
-            (item as? Section)?.let {
-                _uiState.value[columnIndex].sec2.remove(it)
+            (item as? TaskItemVo)?.let {
+                _uiState.value[columnIndex].taskList.remove(it)
             }
         } catch (_: Exception) {
         }
@@ -167,17 +151,17 @@ class KanbanViewModel {
 
     private fun changeItemPosition(fromIndex: Int, toIndex: Int, columnIndex: Int) {
         try {
-            val item = _uiState.value[columnIndex].sec2.get(fromIndex)
-            _uiState.value[columnIndex].sec2.removeAt(fromIndex)
-            _uiState.value[columnIndex].sec2.add(toIndex, item)
+            val item = _uiState.value[columnIndex].taskList.get(fromIndex)
+            _uiState.value[columnIndex].taskList.removeAt(fromIndex)
+            _uiState.value[columnIndex].taskList.add(toIndex, item)
         } catch (_: Exception) {
         }
     }
 
     init {
         _uiState.value = mutableListOf(
-            Section2(name = "Section 1", sec2 = sections),
-            Section2(name = "Section 2", sec2 = sections2),
+            KanbanBoard(name = "Section 1", taskList = sections),
+            KanbanBoard(name = "Section 2", taskList = sections2),
         )
     }
 
@@ -195,12 +179,12 @@ data class Section(
     }
 }
 
-data class Section2(
+data class KanbanBoard( //todo переименовать в нормальное название
     val id: Int = internalId++,
     val name: String = "",
     val description: String = "",
     val color: Long = Random(id).nextLong(),
-    val sec2: MutableList<Section>
+    val taskList: MutableList<TaskItemVo>
 ) {
     companion object {
         private var internalId = 0

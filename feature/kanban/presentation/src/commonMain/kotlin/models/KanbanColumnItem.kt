@@ -1,3 +1,5 @@
 package models
 
-data class KanbanColumnItem(val id: Int, var taskItems: MutableList<TaskItem>)
+import main_models.TaskItemVo
+
+data class KanbanColumnItem(val id: Int, var taskItems: MutableList<TaskItemVo>)

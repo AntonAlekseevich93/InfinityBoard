@@ -13,6 +13,8 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onGloballyPositioned
 
+
+//todo нужно удалить
 /**
  * We use rememberUpdateState because State update inside `detectDragGestures`
  * does not happen automatically when the `dataToDrop` parameter is changed.

@@ -14,6 +14,8 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.IntSize
 
+
+//todo нужно удалить
 @Composable
 fun LongPressDraggable(
     modifier: Modifier = Modifier,

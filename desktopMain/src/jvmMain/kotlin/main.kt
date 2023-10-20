@@ -40,7 +40,7 @@ import java.awt.Frame
 fun main() = application {
     PlatformSDK.init(PlatformConfiguration())
     var state = rememberWindowState(
-        size = DpSize(1200.dp, 600.dp),
+        size = DpSize(1300.dp, 900.dp),
         position = WindowPosition(Alignment.Center)
     )
 
@@ -78,7 +78,7 @@ fun main() = application {
                 state.isMinimized = false
             }
             Card(shape = RoundedCornerShape(8.dp)) {
-                Column {
+                Column() {
                     AppWindowTitleBar(
                         closeListener = {
                             windowCloseListener.invoke()

@@ -8,6 +8,10 @@ kotlin {
         commonMain {
             dependencies {
                 implementation(project(":feature:kanban:presentation"))
+                implementation(project(":feature:search:presentation"))
+                implementation(project(":feature:search:data")) //todo remove?
+                implementation(project(":feature:note:presentation"))
+                implementation(project(":feature:note:data")) //todo remove?
                 implementation(project(":common:core"))
             }
         }

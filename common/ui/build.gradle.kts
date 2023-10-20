@@ -9,6 +9,8 @@ kotlin {
             dependencies {
                 api(project(":common:core"))
                 implementation(project(":common:theme"))
+                implementation(project(":common:resources:strings"))
+                implementation(project(":common:resources:drawable"))
             }
         }
     }

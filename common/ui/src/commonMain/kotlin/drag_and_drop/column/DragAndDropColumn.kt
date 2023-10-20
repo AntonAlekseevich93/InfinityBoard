@@ -9,11 +9,13 @@ import androidx.compose.foundation.gestures.animateScrollBy
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -21,13 +23,18 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.input.pointer.PointerEventType
+import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.boundsInWindow
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import drag_and_drop.draggable_in_window.DragItemStateInFullWindow
 import drag_and_drop.draggable_in_window.DragItemStateInFullWindow.Companion.INDEX_IS_NOT_SET
@@ -35,12 +42,18 @@ import drag_and_drop.utils.rememberDragAndDropColumnState
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalComposeUiApi::class)
 @Composable
 fun <T : Any> DragDropColumn(
     items: List<T>,
     onSwap: (Int, Int, Int, Boolean) -> Unit,
     columnIndex: Int,
+    lazyColumnModifier: Modifier = Modifier,
+    cardModifier: Modifier,
+    cardShape: Shape = RoundedCornerShape(0.dp),
+    cardBackground: Color = Color.White,
+    itemDragElevation: Dp = 0.dp,
+    unselectAndSelectColumnBackground: Pair<Color, Color> = Color.White to Color.White,
     dragItemStateInFullWindow: DragItemStateInFullWindow,
     addItemInList: (itemIndex: Int, columnIndex: Int, item: Any) -> Unit,
     removeItemFromList: (item: Any, columnIndex: Int) -> Unit,
@@ -64,14 +77,13 @@ fun <T : Any> DragDropColumn(
     var overscrollJobForParentColumn by remember { mutableStateOf<Job?>(null) }
     var overscrollJobForAnotherColumn by remember { mutableStateOf<Job?>(null) }
     LazyColumn(
-        modifier = Modifier
+        modifier = lazyColumnModifier
             .pointerInput(dragAndDropColumnState) {
                 detectDragGestures(
                     onDrag = { change, offset ->
                         change.consume()
 
                         dragItemStateInFullWindow.apply {
-
                             if (isProcessOfChangingColumn) {
                                 dragAndDropColumnState.onDrag(
                                     offset = offset,
@@ -191,7 +203,8 @@ fun <T : Any> DragDropColumn(
                         )
                     } else isCurrentColumnDropTarget = false
                 }
-            }.background(if (isCurrentColumnDropTarget) Color.Green else Color.Blue),
+            }
+            .background(if (isCurrentColumnDropTarget) unselectAndSelectColumnBackground.second else unselectAndSelectColumnBackground.first),
         state = lazyListState,
         contentPadding = PaddingValues(8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -203,10 +216,14 @@ fun <T : Any> DragDropColumn(
                 columnIndex = columnIndex,
                 dragItemStateInFullWindow = dragItemStateInFullWindow
             ) { isDragging ->
+                val elevation by animateDpAsState(if (isDragging) itemDragElevation else 0.dp)
 
-                val elevation by animateDpAsState(if (isDragging) 4.dp else 0.dp)
-
-                Card(elevation = elevation, modifier = Modifier.defaultMinSize(minWidth = 250.dp)) {
+                Card(
+                    elevation = elevation,
+                    modifier = cardModifier,
+                    shape = cardShape,
+                    backgroundColor = cardBackground
+                ) {
                     itemContent(item)
                 }
             }
