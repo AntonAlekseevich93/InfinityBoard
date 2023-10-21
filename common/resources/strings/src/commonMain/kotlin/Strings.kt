@@ -10,4 +10,13 @@ object Strings {
     const val fast_search = "Быстрый поиск"
     const val tasks = "Задачи"
     const val recent = "Недавнее"
+    const val tags = "Теги"
+    const val add_subtask = "Добавить подзадачу"
+    const val add_bookmark = "В закладки"
+    const val add_calendar = "Срок исполнения"
+    const val sidebar = "Боковое меню"
+    const val expand = "Развернуть"
+    const val collapse = "Свернуть"
+    const val close = "Закрыть"
+    const val structure = "Структура"
 }

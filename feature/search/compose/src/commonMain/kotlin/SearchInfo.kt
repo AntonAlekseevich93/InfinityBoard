@@ -82,11 +82,10 @@ internal fun SearchInfo(
                     onClick = {
                         //todo
                     })
-                println("$needShowDivider $index size = ${searchedTasks.size}")
                 if (needShowDivider && index != searchedTasks.size - 1) {
                     Divider(
                         modifier = Modifier.fillMaxWidth().height(1.dp)
-                            .padding(horizontal = 66.dp),
+                            .padding(start = 66.dp, end = 36.dp),
                         color = ApplicationTheme.colors.searchDividerColor
                     )
                 }

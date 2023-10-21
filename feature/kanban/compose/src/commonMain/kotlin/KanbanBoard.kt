@@ -118,7 +118,7 @@ fun KanbanBoard() {
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun StuffListUI() {
+fun StuffListUI(openCard: () -> Unit) {
     val viewModel = remember { Inject.instance<KanbanViewModel>() }
     val uiState = viewModel.uiState.collectAsState()
     DraggableItemInWindow {
@@ -204,7 +204,7 @@ fun StuffListUI() {
                                         }
                                     },
                                         onTap = {
-                                            //todo this for onclick
+                                            openCard.invoke()
                                         }
                                     )
                                 }

@@ -17,4 +17,11 @@ object Drawable {
     const val drawable_ic_search_glass = "ic_search_glass.png"
     const val drawable_ic_empty_search = "ic_empty_search.png"
     const val drawable_ic_task = "ic_task.png"
+    const val drawable_ic_subtask = "ic_subtask.png"
+    const val drawable_ic_bookmark = "ic_bookmark.png"
+    const val drawable_ic_close = "ic_close.png"
+    const val drawable_ic_expand = "ic_expand.png"
+    const val drawable_ic_collapse = "ic_collapse.png"
+    const val drawable_ic_note_sidebar = "ic_note_sidebar.png"
+    const val drawable_ic_structure = "ic_structure.png"
 }

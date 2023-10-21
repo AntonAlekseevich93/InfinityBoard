@@ -56,6 +56,16 @@ class SearchViewModel(private val repository: SearchRepository) {
         }
     }
 
+    fun clearSearch() {
+        _uiState.value.apply {
+            searchedTasks.clear()
+            isEmptySearch.value = false
+            searchJob?.cancel()
+            isSearchingProcess.value = false
+            showRecentSearchList.value = true
+        }
+    }
+
     fun saveRecentSearchItem(item: String) {
         // todo нужно хранить определенное кол-во items
     }

@@ -1,55 +1,53 @@
 package navigation_drawer
 
 import ApplicationTheme
-import Drawable
-import Strings
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.widthIn
-import androidx.compose.material3.DismissibleDrawerSheet
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.DrawerState
-import androidx.compose.material3.ModalDrawerSheet
+import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ModalNavigationDrawer
-import androidx.compose.material3.Text
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.dp
-import tooltip_area.TooltipIconArea
+import androidx.compose.ui.graphics.Color
 
 @Composable
 fun PlatformNavigationDrawer(
     platform: Platform,
-    drawerContent: @Composable () -> Unit,
+    leftDrawerContent: @Composable () -> Unit = {},
+    rightDrawerContent: @Composable () -> Unit = {},
     modifier: Modifier = Modifier,
-    drawerState: DrawerState,
-    showDrawer: MutableState<Boolean>,
+    leftDrawerState: DrawerState = rememberDrawerState(initialValue = DrawerValue.Closed),
+    showLeftDrawer: MutableState<Boolean> = mutableStateOf(false),
+    showRightDrawer: MutableState<Boolean> = mutableStateOf(false),
     gesturesEnabled: Boolean = true,
+    background: Color = ApplicationTheme.colors.mainBackgroundWindowDarkColor,
     content: @Composable () -> Unit,
 ) {
     when (platform) {
         Platform.DESKTOP -> {
             CustomDrawer(
-                drawerContent = drawerContent,
+                leftDrawerContent = leftDrawerContent,
+                rightDrawerContent = rightDrawerContent,
                 modifier = modifier,
-                show = showDrawer.value,
+                showLeftDrawer = showLeftDrawer.value,
+                showRightDrawer = showRightDrawer.value,
+                background = background,
                 content = content
             )
         }
 
         else -> {
             ModalNavigationDrawer(
-                drawerContent = drawerContent,
+                drawerContent = leftDrawerContent,
                 modifier = modifier,
-                drawerState = drawerState,
+                drawerState = leftDrawerState,
                 gesturesEnabled = gesturesEnabled,
                 content = content
             )
@@ -63,82 +61,30 @@ fun PlatformNavigationDrawer(
  */
 @Composable
 fun CustomDrawer(
-    drawerContent: @Composable () -> Unit,
+    leftDrawerContent: @Composable () -> Unit,
+    rightDrawerContent: @Composable () -> Unit,
     modifier: Modifier = Modifier,
-    show: Boolean,
+    background: Color,
+    showLeftDrawer: Boolean,
+    showRightDrawer: Boolean,
     content: @Composable () -> Unit,
 ) {
     Box(
         modifier = modifier.fillMaxHeight()
-            .background(ApplicationTheme.colors.mainBackgroundWindowDarkColor)
+            .background(background)
     ) {
-        Row() {
-            AnimatedVisibility(visible = show) {
-                drawerContent()
-            }
-            content()
-        }
-    }
-}
-
-@Composable
-fun PlatformDrawerContent(
-    platform: Platform,
-    closeSidebarListener: () -> Unit
-) {
-    when (platform) {
-        Platform.DESKTOP -> {
-            DismissibleDrawerSheet(
-                drawerContainerColor = ApplicationTheme.colors.mainBackgroundWindowDarkColor,
-            ) {
-                DrawerContent(closeSidebarListener)
-            }
-        }
-
-
-        else -> {
-            ModalDrawerSheet {
-
-            }
-        }
-    }
-}
-
-@Composable
-fun DrawerContent(closeSidebarListener: () -> Unit) {
-    Box(modifier = Modifier.widthIn(max = 300.dp)) {
-        Column {
-            Row(
-                modifier = Modifier.padding(top = 16.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = "Проекты", //todo текст передается
-                    modifier = Modifier.padding(start = 32.dp),
-                    style = ApplicationTheme.typography.title3Bold,
-                    color = ApplicationTheme.colors.mainTextColor,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
-                Spacer(modifier = Modifier.weight(1f, fill = true))
-
-                TooltipIconArea(
-                    text = Strings.to_main,
-                    drawableResName = Drawable.drawable_ic_home,
-                    showPointerEvent = true,
-                    modifier = Modifier.padding(start = 6.dp, end = 6.dp),
-
-                    ) {
-                    closeSidebarListener.invoke()
+        Row(modifier = Modifier.fillMaxSize()) {
+            AnimatedVisibility(visible = showLeftDrawer) {
+                Box(Modifier.weight(1f)) {
+                    leftDrawerContent()
                 }
-                TooltipIconArea(
-                    text = Strings.menu,
-                    drawableResName = Drawable.drawable_ic_sidebar,
-                    showPointerEvent = true,
-                    modifier = Modifier.padding(end = 12.dp),
-
-                    ) {
-                    closeSidebarListener.invoke()
+            }
+            Box(Modifier.weight(1f)) {
+                content()
+            }
+            AnimatedVisibility(visible = showRightDrawer) {
+                Box(Modifier.weight(1f)) {
+                    rightDrawerContent()
                 }
             }
         }
