@@ -8,11 +8,12 @@ kotlin {
         commonMain {
             dependencies {
                 implementation(project(":common:core"))
+                implementation(project(":common:models"))
             }
         }
     }
 }
 
 android {
-    namespace = "ru.infinityboard.infinityboard.kanban.presentation"
+    namespace = "ru.yourlibrary.yourlibrary.kanban.presentation"
 }

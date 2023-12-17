@@ -14,7 +14,7 @@ kotlin{
 
 sqldelight {
     databases.create("AppDatabase") {
-        packageName.set("sqldelight.com.infinityboard.database")
+        packageName.set("sqldelight.com.yourlibrary.database")
     }
     linkSqlite.set(true)
 }

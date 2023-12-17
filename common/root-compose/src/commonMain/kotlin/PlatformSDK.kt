@@ -14,6 +14,7 @@ object PlatformSDK {
             name = "rootComposeModule",
             init = {
                 bind<PlatformConfiguration>() with singleton { configuration }
+                bind<ApplicationViewModel>() with singleton { ApplicationViewModel() }
             })
 
         Inject.createDependencies(
@@ -22,7 +23,9 @@ object PlatformSDK {
                     rootComposeModule,
                     coreModule,
                     kanbanModule,
-                    viewModelsModule
+                    searchModule,
+                    noteModule,
+                    viewModelsModule,
                 )
             }.direct
         )

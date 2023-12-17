@@ -49,5 +49,5 @@ kotlin {
 }
 
 android {
-    namespace = "ru.infinityboard.infinityboard"
+    namespace = "ru.yourlibrary.yourlibrary"
 }

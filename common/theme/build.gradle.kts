@@ -14,5 +14,5 @@ kotlin {
 }
 
 android {
-    namespace = "ru.infinityboard.infinityboard.common.theme"
+    namespace = "ru.yourlibrary.yourlibrary.common.theme"
 }

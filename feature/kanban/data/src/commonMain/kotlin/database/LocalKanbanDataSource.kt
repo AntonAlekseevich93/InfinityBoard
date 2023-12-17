@@ -1,6 +1,6 @@
 package database
 
-import sqldelight.com.infinityboard.database.AppDatabase
+import sqldelight.com.yourlibrary.database.AppDatabase
 
 class LocalKanbanDataSource(dbDriverFactory: DbDriverFactory) {
     private val driver = dbDriverFactory.createDriver()

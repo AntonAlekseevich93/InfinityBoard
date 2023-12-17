@@ -35,7 +35,7 @@ compose.desktop {
 //                "-Dapple.awt.application.appearance=system"
 //            )
 
-            packageName = "infinityBoard"
+            packageName = "yourLibrary"
             packageVersion = "1.0.0"
         }
     }

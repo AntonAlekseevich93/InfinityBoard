@@ -3,6 +3,7 @@ package drag_and_drop.column
 import androidx.compose.animation.core.FastOutLinearInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.height
@@ -12,6 +13,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
@@ -51,7 +53,7 @@ fun LazyItemScope.DraggableColumnItem(
         /** this field is responsible for the global drawing of item on the entire window*/
         dragItemStateInFullWindow.drawingDragItemInFullWindowEvent = content
     }
-    Box(modifier = modifier.then(draggingModifier)) {
+    Box(modifier = modifier.then(draggingModifier).background(Color.Transparent)) {
         content(dragging)
     }
 }
@@ -72,7 +74,7 @@ private fun LazyItemScope.getDraggableModifier(
             Modifier
                 .zIndex(1f)
                 .graphicsLayer {
-//                    alpha = 0f
+                    alpha = 0f
                     translationY = dragAndDropColumnState.draggingItemOffset
                 }
         } else if (dragItemStateInFullWindow.isProcessOfChangingColumn && columnIndex == dragItemStateInFullWindow.parentColumnIndexOfDraggableItem && itemIndex == indexOfDraggedItem) {

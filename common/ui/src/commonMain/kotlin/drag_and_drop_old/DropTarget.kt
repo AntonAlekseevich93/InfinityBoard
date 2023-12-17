@@ -11,6 +11,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.boundsInWindow
 import androidx.compose.ui.layout.onGloballyPositioned
 
+
+//todo нужно удалить
 @Composable
 fun <T> DropTarget(
     modifier: Modifier,

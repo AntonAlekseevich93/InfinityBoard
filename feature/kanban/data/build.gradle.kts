@@ -17,7 +17,7 @@ kotlin {
 
 
 android {
-    namespace = "ru.infinityboard.infinityboard.kanban.data"
+    namespace = "ru.yourlibrary.yourlibrary.kanban.data"
 }
 dependencies {
     implementation(project(mapOf("path" to ":common:ui")))

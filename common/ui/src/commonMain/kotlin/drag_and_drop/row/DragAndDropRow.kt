@@ -7,11 +7,11 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.gestures.animateScrollBy
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -20,6 +20,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 import drag_and_drop.utils.rememberDragDropRowState
@@ -31,6 +32,9 @@ import kotlinx.coroutines.launch
 fun <T : Any> DragDropRow(
     items: List<T>,
     onSwap: (Int, Int) -> Unit,
+    cardShape: RoundedCornerShape = RoundedCornerShape(0.dp),
+    cardModifier: Modifier = Modifier,
+    backgroundColor: Color = Color.White,
     itemContent: @Composable LazyItemScope.(item: T, index: Int) -> Unit
 ) {
     var overscrollJob by remember { mutableStateOf<Job?>(null) }
@@ -86,7 +90,9 @@ fun <T : Any> DragDropRow(
                 val elevation by animateDpAsState(if (isDragging) 4.dp else 0.dp)
                 Card(
                     elevation = elevation,
-                    modifier = Modifier.padding(start = 40.dp, top = 40.dp, end = 100.dp)
+                    modifier = cardModifier,
+                    shape = cardShape,
+                    backgroundColor = backgroundColor
                 ) {
                     itemContent(item, index)
                 }

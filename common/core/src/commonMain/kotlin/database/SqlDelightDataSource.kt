@@ -1,6 +1,6 @@
 package database
 
-import sqldelight.com.infinityboard.database.AppDatabase
+import sqldelight.com.yourlibrary.database.AppDatabase
 
 const val nameDb = "template.db"
 

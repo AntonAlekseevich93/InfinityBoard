@@ -4,5 +4,5 @@ plugins {
 }
 
 android {
-    namespace = "ru.infinityboard.infinityboard.kanban.api"
+    namespace = "ru.yourlibrary.yourlibrary.kanban.api"
 }

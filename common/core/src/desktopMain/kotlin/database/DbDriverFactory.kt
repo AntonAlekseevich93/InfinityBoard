@@ -3,7 +3,7 @@ package database
 import app.cash.sqldelight.db.SqlDriver
 import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
 import di.PlatformConfiguration
-import sqldelight.com.infinityboard.database.AppDatabase
+import sqldelight.com.yourlibrary.database.AppDatabase
 import java.io.File
 import java.util.Locale
 

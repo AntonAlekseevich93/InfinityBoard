@@ -21,7 +21,7 @@ object Dependencies {
     }
 
     object Compose {
-        private const val version = "1.5.10-beta01"
+        private const val version = "1.5.10-rc01"
         const val gradlePlugin = "org.jetbrains.compose:compose-gradle-plugin:$version"
     }
 
